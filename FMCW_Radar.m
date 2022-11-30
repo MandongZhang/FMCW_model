@@ -20,7 +20,7 @@ B = 3e7;
 Nc = 2^9;
 Ns = ceil(6*(fc+B)*Tchirp);
 
-%Ä¿±êÉú³É
+%ç›®æ ‡ç”Ÿæˆ
 %R_init = [100;100]; 
 %v = [30;50];
 R_init = 10;
@@ -28,37 +28,37 @@ v = 15;
 n = 0:Ns*Nc-1;
 t = n.*(Tchirp/Ns);
 
-%ÑéÖ¤²ÎÊı
+%éªŒè¯å‚æ•°
 S  = B/Tchirp; 
 rangeRes = c/(2*B);
 vres = c/(2*Nc*Tchirp*fc);
 Fs = Ns/Tchirp;
 f_IF = 2*S*R_init./c;
-R_exact = R_init+v*Tchirp*Nc; %Êµ¼ÊÎïÌåµÄÎ»ÖÃ
+R_exact = R_init+v*Tchirp*Nc; %å®é™…ç‰©ä½“çš„ä½ç½®
 R_max = 200;
 f_IFmax = 2*S*R_max/c;
 
-%·¢ÉäĞÅºÅÉú³É
+%å‘å°„ä¿¡å·ç”Ÿæˆ
 Tx = cos(2*pi*fc.*(t)+pi*S.*mod(t, Tchirp).^2);
 
-%»Ø²¨¼ÆËã
+%å›æ³¢è®¡ç®—
 tau = 2*(R_init+v*t)./(c+v);
 Rx = cos(2*pi*fc.*(t-tau) + S*pi.*mod((t-tau), Tchirp).^2);
 %Rx = sum(Rx);
 
-%»ìÆµ ÂË²¨ 
+%æ··é¢‘ æ»¤æ³¢ 
 Mix = Tx.*Rx;
 Mix = lowpass(Mix,1.5*f_IFmax, Fs);
 Mix = reshape(Mix, Ns, Nc);
 
-%³éÈ¡²ÉÑùµã½øĞĞfft
+%æŠ½å–é‡‡æ ·ç‚¹è¿›è¡Œfft
 N_abstract = 2^10;
 Abstract_Interval = floor(Ns/N_abstract);
 Abstract_Series = 1:Abstract_Interval:Abstract_Interval*N_abstract;
 F_abstract = length(Abstract_Series)/Tchirp;
 Mix = Mix(Abstract_Series, :);
 
-%¶şÎ¬fft½âËãËÙ¶È¾àÀë
+%äºŒç»´fftè§£ç®—é€Ÿåº¦è·ç¦»
 sig_fft = abs(fft2(Mix));
 sig_fft = fftshift(sig_fft);
 sig_fft = sig_fft(N_abstract/2:N_abstract-1,:);
@@ -69,6 +69,7 @@ n_v = linspace(-Nc/2, Nc/2-1, Nc);
 v_axis = vres*n_v;
 mesh(v_axis,range_axis,sig_fft);
 
+MaxValue = max(max(sig_fft));
 [row, col] = find(sig_fft==MaxValue);
 R_solve = range_axis(row);
 v_solve = v_axis(col);
