@@ -33,10 +33,10 @@ for i=1:N_Rx
 end
 
 Rx_fft = abs(fft(Rx));
-angle_axis = asin((0:N_Rx/2-1)*lambda/(N_Rx*D_Rx))*180/pi;
+angle_axis = asind((0:N_Rx/2-1)*lambda/(N_Rx*D_Rx));
 figure(1)
 mesh(1:Ns*Nc,angle_axis,Rx_fft(1:N_Rx/2,:))
-title('Angle Measurement theta = 80¡ã');
+title('Angle Measurement theta = 80Â¡Ã£');
 ylabel('angle positive');
 figure(2)
 mesh(Rx_fft);
